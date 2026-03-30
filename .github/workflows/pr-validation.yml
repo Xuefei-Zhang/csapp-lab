@@ -107,7 +107,9 @@ jobs:
 
       - name: Run perflab smoke test
         working-directory: perflab-handout
-        run: ./driver -h
+        run: |
+          ./driver -h > driver-help.txt 2>&1 || true
+          grep -q "Usage:" driver-help.txt
 
   archlab:
     name: archlab
@@ -122,7 +124,7 @@ jobs:
         run: |
           test -s archlab-handout/sim.tar
           tar -tf archlab-handout/sim.tar > /dev/null
-          tar -tf archlab-handout/sim.tar | grep -q '^sim/'
+          tar -tf archlab-handout/sim.tar | grep -q 'sim/misc/Makefile'
 
   archlab32:
     name: archlab32
@@ -137,7 +139,7 @@ jobs:
         run: |
           test -s archlab32-handout/sim.tar
           tar -tf archlab32-handout/sim.tar > /dev/null
-          tar -tf archlab32-handout/sim.tar | grep -q '^sim/'
+          tar -tf archlab32-handout/sim.tar | grep -q 'sim/misc/Makefile'
 
   bomb:
     name: bomb
