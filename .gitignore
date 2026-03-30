@@ -5,6 +5,8 @@
 *.tbz2
 *.tar.xz
 *.txz
+!archlab-handout/sim.tar
+!archlab32-handout/sim.tar
 *.o
 *.out
 *.log
