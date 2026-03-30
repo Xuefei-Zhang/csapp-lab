@@ -18,15 +18,23 @@ This repository contains self-study handout materials from the CS:APP 3e lab pag
 
 ## GitHub Actions PR validation
 
-The repository includes a baseline GitHub Actions workflow at `.github/workflows/pr-validation.yml`.
+The repository includes a GitHub Actions workflow at `.github/workflows/pr-validation.yml`.
 
-It currently runs **compile-only** checks for the labs that can be validated reliably on the untouched starter handouts:
+It currently validates all included lab groups, using the lightest check that is stable for each handout type:
 
-- `cachelab-handout`: `make clean && make csim tracegen`
-- `shlab-handout`: `make clean && make`
-- `proxylab-handout`: `make clean && make`
+- `cachelab-handout`: compile `csim` and `tracegen`
+- `datalab-handout`: 32-bit build of `btest` plus `./dlc bits.c`
+- `malloclab-handout`: 32-bit build of `mdriver` plus `./mdriver -f short1-bal.rep`
+- `perflab-handout`: 32-bit build of `driver` plus `./driver -t -g`
+- `archlab-handout`: verify `sim.tar` exists and can be listed
+- `archlab32-handout`: verify `sim.tar` exists and can be listed
+- `bomb/`: smoke-test the `bomb` binary startup path
+- `target1/` (attacklab instance): smoke-test `ctarget`, `rtarget`, and `hex2raw`
+- `buflab32-handout/`: verify binary dependencies for `bufbomb` and `makecookie`, plus a light `hex2raw` smoke test
+- `shlab-handout`: compile starter programs
+- `proxylab-handout`: compile `proxy`
 
-This scope is intentionally conservative. Some CS:APP handouts are expected to fail functional tests until you implement the lab, and some other labs require extra runtime/toolchain setup such as `-m32` multilib support or unpacking additional archives.
+The workflow intentionally mixes compile checks, smoke tests, and archive validation. Some handouts are starter code that will not pass full correctness tests until the lab is implemented, while others are distributed as prebuilt binaries or archived simulator sources.
 
 ## Reproducing the current CI checks locally
 
@@ -35,6 +43,36 @@ Run these commands from the repository root:
 ```bash
 make -C cachelab-handout clean
 make -C cachelab-handout csim tracegen
+
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install -y build-essential gcc-multilib libc6-dev-i386 libc6:i386
+
+make -C datalab-handout clean
+make -C datalab-handout btest
+(cd datalab-handout && ./dlc bits.c)
+
+make -C malloclab-handout clean
+make -C malloclab-handout mdriver
+(cd malloclab-handout && ./mdriver -f short1-bal.rep)
+
+make -C perflab-handout clean
+make -C perflab-handout driver
+(cd perflab-handout && ./driver -t -g)
+
+test -s archlab-handout/sim.tar
+tar -tf archlab-handout/sim.tar > /dev/null
+
+test -s archlab32-handout/sim.tar
+tar -tf archlab32-handout/sim.tar > /dev/null
+
+(cd bomb && printf '' | ./bomb > bomb-smoke.out 2>&1 || true)
+
+(cd target1 && ./ctarget -h && ./rtarget -h && ./hex2raw < /dev/null > /dev/null 2>&1 || true)
+
+ldd buflab32-handout/bufbomb
+ldd buflab32-handout/makecookie
+./buflab32-handout/hex2raw < /dev/null > /dev/null 2>&1 || true
 
 make -C shlab-handout clean
 make -C shlab-handout
@@ -45,5 +83,6 @@ make -C proxylab-handout
 
 ## Notes
 
-- The compile-only baseline is meant to keep pull request checks green on the starter code.
-- Functional and performance tests can be added later as individual labs are actually implemented.
+- The source-based 32-bit labs require multilib packages on CI runners.
+- The architecture labs are currently validated via `sim.tar` integrity checks rather than full simulator builds.
+- The bomb / attack / buflab groups are distributed primarily as prebuilt binaries, so CI focuses on smoke and dependency checks instead of full source builds.
