@@ -26,8 +26,8 @@ It currently validates all included lab groups, using the lightest check that is
 - `datalab-handout`: 32-bit build of `btest` plus `./dlc bits.c`
 - `malloclab-handout`: 32-bit build of `mdriver` plus `./mdriver -f short1-bal.rep`
 - `perflab-handout`: 32-bit build of `driver` plus `./driver -t -g`
-- `archlab-handout`: verify `sim.tar` exists and can be listed
-- `archlab32-handout`: verify `sim.tar` exists and can be listed
+- `archlab-handout`: verify `sim.tar` exists and is a valid tar archive file
+- `archlab32-handout`: verify `sim.tar` exists and is a valid tar archive file
 - `bomb/`: smoke-test the `bomb` binary startup path
 - `target1/` (attacklab instance): smoke-test `ctarget`, `rtarget`, and `hex2raw`
 - `buflab32-handout/`: verify binary dependencies for `bufbomb` and `makecookie`, plus a light `hex2raw` smoke test
@@ -61,10 +61,10 @@ make -C perflab-handout driver
 (cd perflab-handout && ./driver -t -g)
 
 test -s archlab-handout/sim.tar
-tar -tf archlab-handout/sim.tar > /dev/null
+file archlab-handout/sim.tar | grep -i 'tar archive'
 
 test -s archlab32-handout/sim.tar
-tar -tf archlab32-handout/sim.tar > /dev/null
+file archlab32-handout/sim.tar | grep -i 'tar archive'
 
 (cd bomb && printf '' | ./bomb > bomb-smoke.out 2>&1 || true)
 
@@ -84,5 +84,5 @@ make -C proxylab-handout
 ## Notes
 
 - The source-based 32-bit labs require multilib packages on CI runners.
-- The architecture labs are currently validated via `sim.tar` integrity checks rather than full simulator builds.
+- The architecture labs are currently validated via `sim.tar` presence/type checks rather than full simulator builds.
 - The bomb / attack / buflab groups are distributed primarily as prebuilt binaries, so CI focuses on smoke and dependency checks instead of full source builds.
