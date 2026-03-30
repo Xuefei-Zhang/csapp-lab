@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an improvement for the repository, CI, or documentation.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What problem are you trying to solve?
+      placeholder: Describe the need behind this request.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the change you want to see.
+      placeholder: Explain the solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add links, examples, or alternatives if helpful.
+    validations:
+      required: false
