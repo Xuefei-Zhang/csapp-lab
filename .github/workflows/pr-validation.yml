@@ -34,6 +34,176 @@ jobs:
           make clean
           make csim tracegen
 
+  datalab:
+    name: datalab
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-multilib libc6-dev-i386 libc6:i386
+
+      - name: Build datalab helpers
+        working-directory: datalab-handout
+        run: |
+          make clean
+          make btest dlc
+
+      - name: Check bits.c with dlc
+        working-directory: datalab-handout
+        run: ./dlc bits.c
+
+  malloclab:
+    name: malloclab
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-multilib libc6-dev-i386 libc6:i386
+
+      - name: Build malloclab driver
+        working-directory: malloclab-handout
+        run: |
+          make clean
+          make mdriver
+
+      - name: Run malloclab smoke test
+        working-directory: malloclab-handout
+        run: ./mdriver -f short1-bal.rep
+
+  perflab:
+    name: perflab
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-multilib libc6-dev-i386 libc6:i386
+
+      - name: Build perflab driver
+        working-directory: perflab-handout
+        run: |
+          make clean
+          make driver
+
+      - name: Run perflab smoke test
+        working-directory: perflab-handout
+        run: ./driver -h
+
+  archlab:
+    name: archlab
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify archlab handout archive
+        run: |
+          test -s archlab-handout/sim.tar
+          tar -tf archlab-handout/sim.tar > /dev/null
+          tar -tf archlab-handout/sim.tar | grep -q '^sim/'
+
+  archlab32:
+    name: archlab32
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify archlab32 handout archive
+        run: |
+          test -s archlab32-handout/sim.tar
+          tar -tf archlab32-handout/sim.tar > /dev/null
+          tar -tf archlab32-handout/sim.tar | grep -q '^sim/'
+
+  bomb:
+    name: bomb
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Smoke test bomb binary
+        working-directory: bomb
+        run: |
+          test -x ./bomb
+          printf '' | ./bomb > bomb-smoke.out 2>&1 || true
+          grep -q "Welcome to my fiendish little bomb" bomb-smoke.out
+
+  attacklab:
+    name: attacklab
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Smoke test attacklab binaries
+        working-directory: target1
+        run: |
+          test -x ./ctarget
+          test -x ./rtarget
+          test -x ./hex2raw
+          ./ctarget -h > ctarget-help.txt 2>&1
+          ./rtarget -h > rtarget-help.txt 2>&1
+          grep -q "Usage:" ctarget-help.txt
+          grep -q "Usage:" rtarget-help.txt
+          ./hex2raw < /dev/null > /dev/null 2>&1 || true
+
+  buflab32:
+    name: buflab32
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6:i386 libgcc-s1:i386
+
+      - name: Verify buflab32 binaries
+        working-directory: buflab32-handout
+        run: |
+          set -o pipefail
+          test -x ./bufbomb
+          test -x ./makecookie
+          test -x ./hex2raw
+          ldd ./bufbomb | tee bufbomb-ldd.txt
+          ldd ./makecookie | tee makecookie-ldd.txt
+          ! grep -q "not found" bufbomb-ldd.txt
+          ! grep -q "not found" makecookie-ldd.txt
+          ./hex2raw < /dev/null > /dev/null 2>&1 || true
+
   shlab:
     name: shlab
     runs-on: ubuntu-22.04
