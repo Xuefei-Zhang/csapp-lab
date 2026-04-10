@@ -2,6 +2,26 @@
 
 This repository contains self-study handout materials from the CS:APP 3e lab page, unpacked into separate directories.
 
+## Downloading Lab Writeups
+
+To download the official writeup PDF files for each lab from https://csapp.cs.cmu.edu/3e/labs.html, run:
+
+```bash
+python3 download_writeups.py
+```
+
+This will download the writeup PDFs into their corresponding lab directories:
+- `datalab.pdf` → `datalab-handout/`
+- `bomblab.pdf` → `bomb/`
+- `buflab.pdf` → `buflab32-handout/`
+- `archlab.pdf` → `archlab-handout/`
+- `archlab32.pdf` → `archlab32-handout/`
+- `cachelab.pdf` → `cachelab-handout/`
+- `perflab.pdf` → `perflab-handout/`
+- `shlab.pdf` → `shlab-handout/`
+- `malloclab.pdf` → `malloclab-handout/`
+- `proxylab.pdf` → `proxylab-handout/`
+
 ## Included labs
 
 - `datalab-handout/`
