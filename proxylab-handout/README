@@ -7,6 +7,8 @@
 This directory contains the files you will need for the CS:APP Proxy
 Lab.
 
+Official Lab Writeup: http://csapp.cs.cmu.edu/3e/proxylab.pdf
+
 proxy.c
 csapp.h
 csapp.c

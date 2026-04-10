@@ -11,6 +11,8 @@
 This directory contains the files you will need for the CS:APP
 Performance Lab.
 
+Official Lab Writeup: http://csapp.cs.cmu.edu/3e/perflab.pdf
+
 kernels.c
 	This is the file you will be modifying and handing in. 
 

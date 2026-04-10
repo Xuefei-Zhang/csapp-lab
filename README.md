@@ -2,6 +2,21 @@
 
 This repository contains self-study handout materials from the CS:APP 3e lab page, unpacked into separate directories.
 
+## Lab Writeups
+
+Each lab includes a link to the official lab writeup PDF in its README file. The writeups provide detailed specifications, grading criteria, and instructions:
+
+- **Data Lab** - http://csapp.cs.cmu.edu/3e/datalab.pdf
+- **Bomb Lab** - http://csapp.cs.cmu.edu/3e/bomblab.pdf
+- **Attack Lab** - http://csapp.cs.cmu.edu/3e/attacklab.pdf (target1/)
+- **Buffer Lab (32-bit)** - http://csapp.cs.cmu.edu/3e/buflab32.pdf (buflab32-handout/)
+- **Architecture Lab** - archlab.pdf and simguide.pdf (included in archlab-handout/ and archlab32-handout/)
+- **Cache Lab** - http://csapp.cs.cmu.edu/3e/cachelab.pdf
+- **Performance Lab** - http://csapp.cs.cmu.edu/3e/perflab.pdf
+- **Shell Lab** - http://csapp.cs.cmu.edu/3e/shlab.pdf
+- **Malloc Lab** - http://csapp.cs.cmu.edu/3e/malloclab.pdf
+- **Proxy Lab** - http://csapp.cs.cmu.edu/3e/proxylab.pdf
+
 ## Included labs
 
 - `datalab-handout/`

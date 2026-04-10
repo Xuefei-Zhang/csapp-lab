@@ -1,0 +1,23 @@
+####################################################################
+# CS:APP Buffer Lab (IA32)
+#
+# Handout files for students
+####################################################################
+
+This directory contains the 32-bit buffer overflow lab materials.
+
+Official Lab Writeup: http://csapp.cs.cmu.edu/3e/buflab32.pdf
+
+Note: This is the older 32-bit version of the buffer overflow lab.
+The newer Attack Lab (target1/) is the 64-bit replacement.
+
+Files:
+
+bufbomb
+    The buffer bomb program you will attack.
+
+makecookie
+    Generates a cookie based on your userid.
+
+hex2raw
+    Utility to generate byte sequences for exploit strings.
