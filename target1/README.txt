@@ -1,5 +1,7 @@
 This file contains materials for one instance of the attacklab.
 
+Official Lab Writeup: http://csapp.cs.cmu.edu/3e/attacklab.pdf
+
 Files:
 
     ctarget

@@ -2,6 +2,8 @@
 CS:APP Shell Lab
 ################
 
+Official Lab Writeup: http://csapp.cs.cmu.edu/3e/shlab.pdf
+
 Files:
 
 Makefile	# Compiles your shell program and runs the tests
